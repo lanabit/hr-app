@@ -1,5 +1,6 @@
 Holiday
 Exercise Human Resource
+
 Study Case
 “Anda merupakan seorang Fullstack Developer yang tergabung kedalam tim yang akan mendevelop sebuah project aplikasi HR untuk sebuah perusahaan.”
 
@@ -35,6 +36,7 @@ Jabatan & Gaji:
 -HR Dapat Meng-ACC Cuti Karyawan. Setelah ACC Cuti, Maka Saldo Cuti Karyawan Tersebut Otomatis Berkurang. (Default Jumlah Cuti: 12 Hari)
 
 2.Karyawan
+
 -Karyawan Dapat Melakukan Presensi Masuk (Clock-In) & Presensi Pulang (Clock-Out) Sesuai dengan Tanggal dan Jam yang Dipilih. Lakukan Deduction Gaji Apabila Karyawan Mengalami Keterlambatan/Pulang Lebih Cepat/Tidak Hadir Sama Sekali. Untuk Setiap 30 Menit Jam Kerja yang Hilang Akan Dipotong Sebesar 0.1% dari Gajinya. Deduction Gaji Juga Harus Tercatat Day per Day nya Seperti Berikut:
 
 Name : Immanuel Janis

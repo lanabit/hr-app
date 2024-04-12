@@ -11,6 +11,9 @@ export const findEmployeesById = async (id: number) => {
     where: {
       id,
     },
+    include: {
+      position: true,
+    },
   });
   if (!employee) throw Error(`Employee with id ${id} does not exist`);
 
@@ -30,7 +33,7 @@ export const createEmployee = async (
       email: email,
       isHRAdmin: isHRAdmin,
       shiftId: shiftId,
-      positionId: positionId
+      positionId: positionId,
     },
   });
 
@@ -57,7 +60,7 @@ export const updateEmployee = async (
       email: email,
       isHRAdmin: isHRAdmin,
       shiftId: shiftId,
-      positionId: positionId
+      positionId: positionId,
     },
   });
 

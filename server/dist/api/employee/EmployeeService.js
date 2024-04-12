@@ -22,6 +22,9 @@ const findEmployeesById = (id) => __awaiter(void 0, void 0, void 0, function* ()
         where: {
             id,
         },
+        include: {
+            position: true,
+        },
     });
     if (!employee)
         throw Error(`Employee with id ${id} does not exist`);
@@ -35,7 +38,7 @@ const createEmployee = (name, email, isHRAdmin, shiftId, positionId) => __awaite
             email: email,
             isHRAdmin: isHRAdmin,
             shiftId: shiftId,
-            positionId: positionId
+            positionId: positionId,
         },
     });
     return newEmployee;
@@ -53,7 +56,7 @@ const updateEmployee = (id, name, email, isHRAdmin, shiftId, positionId) => __aw
             email: email,
             isHRAdmin: isHRAdmin,
             shiftId: shiftId,
-            positionId: positionId
+            positionId: positionId,
         },
     });
     return updateEmployeeData;

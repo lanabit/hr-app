@@ -16,7 +16,7 @@ datasource db {
 model Employee {
   id           Int            @id @default(autoincrement())
   name         String
-  email        String
+  email        String         @unique
   isHRAdmin    Boolean
   leaveBalance Int            @default(12)
   shift        Shift          @relation(fields: [shiftId], references: [id])
@@ -51,12 +51,14 @@ model LeaveRequest {
 }
 
 model Attendance {
-  id         Int      @id @default(autoincrement())
-  employee   Employee @relation(fields: [employeeId], references: [id])
+  id         Int       @id @default(autoincrement())
+  employee   Employee  @relation(fields: [employeeId], references: [id])
   employeeId Int
-  date       DateTime @db.Date
-  clockIn    DateTime @db.Time()
-  clockOut   DateTime @db.Time()
-  isOnLeave  Boolean  @default(false)
-  deduction  Int
+  date       DateTime  @db.Date
+  clockIn    DateTime  @db.Time()
+  clockOut   DateTime? @db.Time()
+  isOnLeave  Boolean?  @default(false)
+  deduction  Int?
+
+  @@unique([employeeId, date])
 }

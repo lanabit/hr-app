@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logAttandance = exports.showAttandance = void 0;
+exports.logClockOut = exports.logAttandance = exports.showAttandance = void 0;
 const AttendanceService_1 = require("./AttendanceService");
 const EmployeeService_1 = require("../employee/EmployeeService");
 const showAttandance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,7 +31,6 @@ exports.showAttandance = showAttandance;
 const logAttandance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const employeeId = parseInt(req.headers.id);
-        console.log(employeeId);
         const { date, clockIn, clockOut, isOnLeave, deduction } = req.body;
         yield (0, EmployeeService_1.findEmployeesById)(employeeId);
         const newAttendance = yield (0, AttendanceService_1.createAttendance)(employeeId, date, clockIn, clockOut, isOnLeave, deduction);
@@ -48,3 +47,21 @@ const logAttandance = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.logAttandance = logAttandance;
+const logClockOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const attendanceId = parseInt(req.headers.id);
+        const data = req.body;
+        const newAttendance = yield (0, AttendanceService_1.editAttendance)(attendanceId, data);
+        res.send({
+            status: "success",
+            data: newAttendance,
+        });
+    }
+    catch (error) {
+        res.send({
+            status: "error",
+            message: error.message,
+        });
+    }
+});
+exports.logClockOut = logClockOut;

@@ -9,6 +9,25 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id        Int      @id @default(autoincrement())
+  position  Int
+  name      String
+  email     String
+  password  String
+  positions Position @relation(fields: [position], references: [id])
+
+  @@map("employs")
+}
+
+model Position {
+  id      Int        @id @default(autoincrement())
+  role    String
+  employs Employee[]
+
+  @@map("positions")
 }

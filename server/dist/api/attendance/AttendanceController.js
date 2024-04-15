@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logClockOut = exports.logAttandance = exports.showAttandance = void 0;
+exports.logDeduction = exports.logClockOut = exports.logAttandance = exports.showAttandance = void 0;
 const AttendanceService_1 = require("./AttendanceService");
 const EmployeeService_1 = require("../employee/EmployeeService");
 const showAttandance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,3 +65,20 @@ const logClockOut = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.logClockOut = logClockOut;
+const logDeduction = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const attendanceId = parseInt(req.headers.id);
+        const { clockIn, clockOut } = req.body;
+        const deduction = yield (0, AttendanceService_1.deductionLogicFECall)(attendanceId, clockIn, clockOut);
+        res.send({
+            deduction,
+        });
+    }
+    catch (error) {
+        res.send({
+            status: "error",
+            message: error.message,
+        });
+    }
+});
+exports.logDeduction = logDeduction;

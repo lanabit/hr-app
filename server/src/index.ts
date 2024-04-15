@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import router from "./api/router";
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 

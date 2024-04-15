@@ -18,12 +18,23 @@ export const findAttendancebyId = async (id: number) => {
   return attendance;
 };
 
+export const findAttendanceFE = async (empId: number, date: string) => {
+  const attendance: any = await prisma.attendance.findUnique({
+    where: {
+      employeeId: empId,
+      date: date,
+    },
+  });
+
+  return attendance;
+};
+
 export const createAttendance = async (
   employeeId: number,
   date: string,
   clockIn: string,
-  clockOut: string | null,
-  isOnLeave: boolean | null,
+  clockOut: string,
+  isOnLeave: boolean,
   deduction: number
 ) => {
   const attendanceLog = await prisma.attendance.create({
@@ -60,6 +71,17 @@ export const editAttendance = async (id: number, data: any) => {
   });
 };
 
+export const queryAttendanceFE = async (id: number, date: any) => {
+  const find = await prisma.attendance.findUnique({
+    where: {
+      employeeId: id,
+      date: date,
+    },
+  });
+
+  return editAttendance(find.id, find);
+};
+
 export const deductionLogic = async (id: number) => {
   const attendanceData = await findAttendancebyId(id);
   const attendant = await findEmployeesById(attendanceData.employeeId);
@@ -72,7 +94,7 @@ export const deductionLogic = async (id: number) => {
 
   const DateTransform = (dateData: any) => {
     dateData = JSON.stringify(dateData);
-    dateData = dateData.slice(1, -3);
+    // dateData = dateData.slice(1, -3);
     return new Date(dateData);
   };
 
@@ -91,6 +113,47 @@ export const deductionLogic = async (id: number) => {
   const earlyClockOut: number =
     clockOut.getTime() - shiftEnds.getTime() < 0
       ? Math.abs(clockOut.getTime() - shiftEnds.getTime()) / denumerator
+      : 0;
+
+  const lostTime: number = Math.floor((lateClockIn + earlyClockOut) / 30);
+
+  return lostTime * salary * 0.001;
+};
+
+export const deductionLogicFECall = async (
+  id: number,
+  clockIn: string,
+  clockOut: string
+) => {
+  const attendant = await findEmployeesById(id);
+  const salary = attendant.position.salary;
+  const shiftDetails = await prisma.shift.findUnique({
+    where: {
+      id: attendant.shiftId,
+    },
+  });
+
+  const DateTransform = (dateData: any) => {
+    dateData = JSON.stringify(dateData);
+    // dateData = dateData.slice(1, -3);
+    return new Date(dateData);
+  };
+
+  const shiftStart = DateTransform(shiftDetails.start);
+  const shiftEnds = DateTransform(shiftDetails.end);
+  const newClockIn = DateTransform(clockIn);
+  const newClockOut = DateTransform(clockOut);
+
+  const denumerator = 1000 * 60; //milisecond to minute for getTime calculation
+
+  const lateClockIn: number =
+    newClockIn.getTime() - shiftStart.getTime() > 0
+      ? (newClockIn.getTime() - shiftStart.getTime()) / denumerator
+      : 0;
+
+  const earlyClockOut: number =
+    newClockOut.getTime() - shiftEnds.getTime() < 0
+      ? Math.abs(newClockOut.getTime() - shiftEnds.getTime()) / denumerator
       : 0;
 
   const lostTime: number = Math.floor((lateClockIn + earlyClockOut) / 30);

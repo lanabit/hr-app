@@ -13,7 +13,12 @@ exports.deleteEmployee = exports.updateEmployee = exports.createEmployee = expor
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const findEmployees = () => __awaiter(void 0, void 0, void 0, function* () {
-    const employees = yield prisma.Employee.findMany();
+    const employees = yield prisma.Employee.findMany({
+        include: {
+            position: true,
+            shift: true,
+        },
+    });
     return employees;
 });
 exports.findEmployees = findEmployees;
@@ -24,6 +29,7 @@ const findEmployeesById = (id) => __awaiter(void 0, void 0, void 0, function* ()
         },
         include: {
             position: true,
+            shift: true,
         },
     });
     if (!employee)

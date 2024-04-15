@@ -2,7 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 export const findEmployees = async () => {
-  const employees: any = await prisma.Employee.findMany();
+  const employees: any = await prisma.Employee.findMany({
+    include: {
+      position: true,
+      shift: true,
+    },
+  });
   return employees;
 };
 
@@ -13,6 +18,7 @@ export const findEmployeesById = async (id: number) => {
     },
     include: {
       position: true,
+      shift: true,
     },
   });
   if (!employee) throw Error(`Employee with id ${id} does not exist`);

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deductionLogic = exports.editAttendance = exports.createAttendance = exports.findAttendancebyId = exports.findAttendance = void 0;
+exports.deductionLogicFECall = exports.deductionLogic = exports.queryAttendanceFE = exports.editAttendance = exports.createAttendance = exports.findAttendanceFE = exports.findAttendancebyId = exports.findAttendance = void 0;
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const EmployeeService_1 = require("../employee/EmployeeService");
@@ -29,6 +29,16 @@ const findAttendancebyId = (id) => __awaiter(void 0, void 0, void 0, function* (
     return attendance;
 });
 exports.findAttendancebyId = findAttendancebyId;
+const findAttendanceFE = (empId, date) => __awaiter(void 0, void 0, void 0, function* () {
+    const attendance = yield prisma.attendance.findUnique({
+        where: {
+            employeeId: empId,
+            date: date,
+        },
+    });
+    return attendance;
+});
+exports.findAttendanceFE = findAttendanceFE;
 const createAttendance = (employeeId, date, clockIn, clockOut, isOnLeave, deduction) => __awaiter(void 0, void 0, void 0, function* () {
     const attendanceLog = yield prisma.attendance.create({
         data: {
@@ -62,6 +72,16 @@ const editAttendance = (id, data) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.editAttendance = editAttendance;
+const queryAttendanceFE = (id, date) => __awaiter(void 0, void 0, void 0, function* () {
+    const find = yield prisma.attendance.findUnique({
+        where: {
+            employeeId: id,
+            date: date,
+        },
+    });
+    return (0, exports.editAttendance)(find.id, find);
+});
+exports.queryAttendanceFE = queryAttendanceFE;
 const deductionLogic = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const attendanceData = yield (0, exports.findAttendancebyId)(id);
     const attendant = yield (0, EmployeeService_1.findEmployeesById)(attendanceData.employeeId);
@@ -73,7 +93,7 @@ const deductionLogic = (id) => __awaiter(void 0, void 0, void 0, function* () {
     });
     const DateTransform = (dateData) => {
         dateData = JSON.stringify(dateData);
-        dateData = dateData.slice(1, -3);
+        // dateData = dateData.slice(1, -3);
         return new Date(dateData);
     };
     const shiftStart = DateTransform(shiftDetails.start);
@@ -91,3 +111,31 @@ const deductionLogic = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return lostTime * salary * 0.001;
 });
 exports.deductionLogic = deductionLogic;
+const deductionLogicFECall = (id, clockIn, clockOut) => __awaiter(void 0, void 0, void 0, function* () {
+    const attendant = yield (0, EmployeeService_1.findEmployeesById)(id);
+    const salary = attendant.position.salary;
+    const shiftDetails = yield prisma.shift.findUnique({
+        where: {
+            id: attendant.shiftId,
+        },
+    });
+    const DateTransform = (dateData) => {
+        dateData = JSON.stringify(dateData);
+        // dateData = dateData.slice(1, -3);
+        return new Date(dateData);
+    };
+    const shiftStart = DateTransform(shiftDetails.start);
+    const shiftEnds = DateTransform(shiftDetails.end);
+    const newClockIn = DateTransform(clockIn);
+    const newClockOut = DateTransform(clockOut);
+    const denumerator = 1000 * 60; //milisecond to minute for getTime calculation
+    const lateClockIn = newClockIn.getTime() - shiftStart.getTime() > 0
+        ? (newClockIn.getTime() - shiftStart.getTime()) / denumerator
+        : 0;
+    const earlyClockOut = newClockOut.getTime() - shiftEnds.getTime() < 0
+        ? Math.abs(newClockOut.getTime() - shiftEnds.getTime()) / denumerator
+        : 0;
+    const lostTime = Math.floor((lateClockIn + earlyClockOut) / 30);
+    return lostTime * salary * 0.001;
+});
+exports.deductionLogicFECall = deductionLogicFECall;

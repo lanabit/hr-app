@@ -3,6 +3,7 @@ import Image from "next/image";
 import { axiosInstance } from "../config/axios";
 import { useEffect, useState } from "react";
 import ClockIn from "./components/clockIn";
+import EmployeePage from "./components/employee";
 
 export default function Home() {
   const fetchData = async () => {
@@ -21,7 +22,8 @@ export default function Home() {
   return (
     <div>
       <div className="flex h-screen items-center justify-center">
-        <ClockIn />
+        {/* <ClockIn /> */}
+        <EmployeePage />
       </div>
     </div>
   );

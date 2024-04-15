@@ -1,19 +1,11 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-export { LoginQuery } from './LoginService';
-
-const prisma = new PrismaClient();
+import { LoginQuery, KeepLoginQuery } from './LoginService';
 
 export const Login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    const [user] = await prisma.employee.findMany({
-      where: {
-        email: email,
-      },
-    });
-    // console.log(user);
+    const [user] = await LoginQuery(email);
 
     if (user.password != password) {
       return res.status(404).send('Wrong password');
@@ -40,11 +32,7 @@ export const keepLogin = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
 
-    const findUserById = await prisma.employee.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+    const findUserById = await KeepLoginQuery(userId);
 
     res.send(findUserById);
   } catch (error) {

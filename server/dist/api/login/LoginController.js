@@ -9,20 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.keepLogin = exports.Login = exports.LoginQuery = void 0;
-const client_1 = require("@prisma/client");
-var LoginService_1 = require("./LoginService");
-Object.defineProperty(exports, "LoginQuery", { enumerable: true, get: function () { return LoginService_1.LoginQuery; } });
-const prisma = new client_1.PrismaClient();
+exports.keepLogin = exports.Login = void 0;
+const LoginService_1 = require("./LoginService");
 const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        const [user] = yield prisma.employee.findMany({
-            where: {
-                email: email,
-            },
-        });
-        // console.log(user);
+        const [user] = yield (0, LoginService_1.LoginQuery)(email);
         if (user.password != password) {
             return res.status(404).send('Wrong password');
         }
@@ -46,11 +38,7 @@ exports.Login = Login;
 const keepLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.body;
-        const findUserById = yield prisma.employee.findUnique({
-            where: {
-                id: userId,
-            },
-        });
+        const findUserById = yield (0, LoginService_1.KeepLoginQuery)(userId);
         res.send(findUserById);
     }
     catch (error) {

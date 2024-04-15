@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginQuery = void 0;
+exports.KeepLoginQuery = exports.LoginQuery = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const LoginQuery = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
+const LoginQuery = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const LoginQuery = yield prisma.employee.findMany({
         where: {
             email: email,
@@ -21,3 +21,12 @@ const LoginQuery = (email, password) => __awaiter(void 0, void 0, void 0, functi
     return LoginQuery;
 });
 exports.LoginQuery = LoginQuery;
+const KeepLoginQuery = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const KeepLoginQuery = yield prisma.employee.findUnique({
+        where: {
+            id: userId,
+        },
+    });
+    return KeepLoginQuery;
+});
+exports.KeepLoginQuery = KeepLoginQuery;

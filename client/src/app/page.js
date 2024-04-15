@@ -1,13 +1,13 @@
-"use client";
-import Image from "next/image";
-import { axiosInstance } from "@/config/axios";
-import { useEffect, useState } from "react";
+'use client';
+import Image from 'next/image';
+import { axiosInstance } from '@/config/axios';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const fetchData = async () => {
     try {
-      const getData = await axiosInstance.get("/test");
-      console.log(getData);
+      const getData = await axiosInstance.get('/test');
+      console.log(getData.data);
     } catch (error) {
       console.log(error);
     }

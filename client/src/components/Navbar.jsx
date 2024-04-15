@@ -14,9 +14,8 @@ export default function Navbar() {
 
       //   console.log(userLocalStorage.id);
 
-      let res = await axiosInstance.post(`/keepLogin`, { userId });
+      let res = await axiosInstance.post(`/login/keep-login`, { userId });
       res = res.data;
-      console.log(res);
 
       setUserData({
         id: res.id,

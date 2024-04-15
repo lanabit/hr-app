@@ -11,7 +11,7 @@ export default function Login() {
 
   const loginHandle = async (values) => {
     try {
-      const res = await axiosInstance.post('/loginTest', values);
+      const res = await axiosInstance.post('/login', values);
       // console.log(res.data.data);
 
       setUserData({
@@ -35,9 +35,6 @@ export default function Login() {
     }
   };
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
   return (
     <Formik
       initialValues={{

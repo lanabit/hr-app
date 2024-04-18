@@ -4,7 +4,7 @@ import NewEmployee from './newEmployee';
 import EditEmployee from './editEmployee';
 import DeleteEmployee from './deleteEmployee';
 
-export default function EmployeePage() {
+export default function EmployeeComponent() {
   const [employeeData, setEmployeeData] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [showNewModal, setShowNewModal] = useState(false);
@@ -21,8 +21,6 @@ export default function EmployeePage() {
 
     fetchData();
   }, []);
-
-  console.log('employee data:', employeeData);
 
   useEffect(() => {
     // Add event listener to document body to handle clicks outside the table

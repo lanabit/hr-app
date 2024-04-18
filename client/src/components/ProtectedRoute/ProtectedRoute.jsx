@@ -11,10 +11,17 @@ export default function ProtectedRoute({ children }) {
 
     // Testing route path
     const protectedPath = ['/admin-dashboard', '/dashboard'];
-    const protectedPathAdmin = ['/admin-dashboard'];
+    const protectedPathAdmin = ['/attendance', '/employee'];
 
-    if (userData?.position != 1 && protectedPathAdmin.includes(path)) {
+    // if (userData?.position != 1 && protectedPathAdmin.includes(path)) {
+    //   navigate.push('/login');
+    // }
+    if (!userData) {
       navigate.push('/login');
+    }
+
+    if (userData?.isHRAdmin == false) {
+      navigate.push('/dashboard');
     }
   };
 

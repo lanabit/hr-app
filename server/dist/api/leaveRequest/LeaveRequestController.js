@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEmployeeInfo = exports.editEmployeeInfo = exports.newEmployee = exports.showEmployeeById = exports.showEmployees = void 0;
-const EmployeeService_1 = require("./EmployeeService");
-const showEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.acceptLeaveRequestControl = exports.newLeaveRequest = exports.showLeaveRequestsById = exports.showLeaveRequestsByEmployee = exports.showLeaveRequests = void 0;
+const LeaveRequestService_1 = require("./LeaveRequestService");
+const showLeaveRequests = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const employees = yield (0, EmployeeService_1.findEmployees)();
+        const employees = yield (0, LeaveRequestService_1.getLeaveRequests)();
         res.send({
             status: "success",
             data: employees,
@@ -26,11 +26,11 @@ const showEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-exports.showEmployees = showEmployees;
-const showEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.showLeaveRequests = showLeaveRequests;
+const showLeaveRequestsByEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const employees = yield (0, EmployeeService_1.findEmployeesById)(id);
+        const employees = yield (0, LeaveRequestService_1.getLeaveRequestsByEmployeeId)(id);
         res.send({
             status: "success",
             data: employees,
@@ -43,14 +43,32 @@ const showEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
-exports.showEmployeeById = showEmployeeById;
-const newEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.showLeaveRequestsByEmployee = showLeaveRequestsByEmployee;
+const showLeaveRequestsById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, password, isHRAdmin, shiftId, positionId } = req.body;
-        const newEmployeeData = yield (0, EmployeeService_1.createEmployee)(name, email, password, isHRAdmin, shiftId, positionId);
+        const id = parseInt(req.params.id);
+        const employees = yield (0, LeaveRequestService_1.getLeaveRequestsByRequestId)(id);
         res.send({
             status: "success",
-            message: "new employee register success",
+            data: employees,
+        });
+    }
+    catch (error) {
+        res.send({
+            status: "error",
+            message: error.message,
+        });
+    }
+});
+exports.showLeaveRequestsById = showLeaveRequestsById;
+const newLeaveRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // const id = parseInt(req.params.id)
+        const { employeeId, type, startDate, endDate } = req.body;
+        const newEmployeeData = yield (0, LeaveRequestService_1.createLeaveRequest)(employeeId, type, startDate, endDate);
+        res.send({
+            status: "success",
+            message: "leave request sent",
             data: newEmployeeData,
         });
     }
@@ -61,17 +79,16 @@ const newEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-exports.newEmployee = newEmployee;
-const editEmployeeInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.newLeaveRequest = newLeaveRequest;
+const acceptLeaveRequestControl = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { employeeId, isAccepted, leaveBalance, totalDays, clockIn, clockOut, leaveDates, } = req.body;
         const id = parseInt(req.params.id);
-        const { name, email, password, isHRAdmin, shiftId, positionId } = req.body;
-        yield (0, EmployeeService_1.findEmployeesById)(id);
-        const newEmployeeData = yield (0, EmployeeService_1.updateEmployee)(id, name, email, password, isHRAdmin, shiftId, positionId);
+        const accepted = yield (0, LeaveRequestService_1.acceptLeaveRequest)(id, isAccepted, employeeId, leaveBalance, totalDays, clockIn, clockOut, leaveDates);
         res.send({
             status: "success",
-            message: "employee info update success",
-            data: newEmployeeData,
+            message: "leave request accepted",
+            data: accepted,
         });
     }
     catch (error) {
@@ -81,22 +98,4 @@ const editEmployeeInfo = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
-exports.editEmployeeInfo = editEmployeeInfo;
-const deleteEmployeeInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const id = parseInt(req.params.id);
-        yield (0, EmployeeService_1.findEmployeesById)(id);
-        yield (0, EmployeeService_1.deleteEmployee)(id);
-        res.send({
-            status: "success",
-            message: `Employee with id ${id} successfully deleted`,
-        });
-    }
-    catch (error) {
-        res.send({
-            status: "error",
-            message: error.message,
-        });
-    }
-});
-exports.deleteEmployeeInfo = deleteEmployeeInfo;
+exports.acceptLeaveRequestControl = acceptLeaveRequestControl;

@@ -46,7 +46,8 @@ model LeaveRequest {
   id         Int      @id @default(autoincrement())
   employee   Employee @relation(fields: [employeeId], references: [id])
   employeeId Int
-  status     Boolean  @default(false)
+  type       String
+  status     Int      @default(0)
   startDate  DateTime @db.Date()
   endDate    DateTime @db.Date()
 }

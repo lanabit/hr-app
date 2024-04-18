@@ -37,11 +37,12 @@ const findEmployeesById = (id) => __awaiter(void 0, void 0, void 0, function* ()
     return employee;
 });
 exports.findEmployeesById = findEmployeesById;
-const createEmployee = (name, email, isHRAdmin, shiftId, positionId) => __awaiter(void 0, void 0, void 0, function* () {
+const createEmployee = (name, email, password, isHRAdmin, shiftId, positionId) => __awaiter(void 0, void 0, void 0, function* () {
     const newEmployee = yield prisma.Employee.create({
         data: {
             name: name,
             email: email,
+            password: password,
             isHRAdmin: isHRAdmin,
             shiftId: shiftId,
             positionId: positionId,
@@ -50,8 +51,9 @@ const createEmployee = (name, email, isHRAdmin, shiftId, positionId) => __awaite
     return newEmployee;
 });
 exports.createEmployee = createEmployee;
-const updateEmployee = (id, name, email, isHRAdmin, shiftId, positionId) => __awaiter(void 0, void 0, void 0, function* () {
-    if (isHRAdmin == undefined && !(shiftId && positionId && name && email))
+const updateEmployee = (id, name, email, password, isHRAdmin, shiftId, positionId) => __awaiter(void 0, void 0, void 0, function* () {
+    if (isHRAdmin == undefined &&
+        !(shiftId && password && positionId && name && email))
         throw Error(`Data is missing some fields.`);
     const updateEmployeeData = yield prisma.Employee.update({
         where: {
@@ -60,6 +62,7 @@ const updateEmployee = (id, name, email, isHRAdmin, shiftId, positionId) => __aw
         data: {
             name: name,
             email: email,
+            password: password,
             isHRAdmin: isHRAdmin,
             shiftId: shiftId,
             positionId: positionId,

@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
 import {
-  findEmployees,
-  findEmployeesById,
-  createEmployee,
-  updateEmployee,
-  deleteEmployee,
-} from "./EmployeeService";
+  getLeaveRequests,
+  getLeaveRequestsByEmployeeId,
+  createLeaveRequest,
+  acceptLeaveRequest,
+  getLeaveRequestsByRequestId,
+} from "./LeaveRequestService";
 
-export const showEmployees = async (
+export const showLeaveRequests = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const employees = await findEmployees();
+    const employees = await getLeaveRequests();
     res.send({
       status: "success",
       data: employees,
@@ -25,13 +25,13 @@ export const showEmployees = async (
   }
 };
 
-export const showEmployeeById = async (
+export const showLeaveRequestsByEmployee = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const id = parseInt(req.params.id);
-    const employees = await findEmployeesById(id);
+    const employees = await getLeaveRequestsByEmployeeId(id);
     res.send({
       status: "success",
       data: employees,
@@ -44,24 +44,42 @@ export const showEmployeeById = async (
   }
 };
 
-export const newEmployee = async (
+export const showLeaveRequestsById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { name, email, password, isHRAdmin, shiftId, positionId } = req.body;
-    const newEmployeeData = await createEmployee(
-      name,
-      email,
-      password,
-      isHRAdmin,
-      shiftId,
-      positionId
+    const id = parseInt(req.params.id);
+    const employees = await getLeaveRequestsByRequestId(id);
+    res.send({
+      status: "success",
+      data: employees,
+    });
+  } catch (error: any) {
+    res.send({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+export const newLeaveRequest = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    // const id = parseInt(req.params.id)
+    const { employeeId, type, startDate, endDate } = req.body;
+    const newEmployeeData = await createLeaveRequest(
+      employeeId,
+      type,
+      startDate,
+      endDate
     );
 
     res.send({
       status: "success",
-      message: "new employee register success",
+      message: "leave request sent",
       data: newEmployeeData,
     });
   } catch (error: any) {
@@ -72,49 +90,36 @@ export const newEmployee = async (
   }
 };
 
-export const editEmployeeInfo = async (
+export const acceptLeaveRequestControl = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
+    const {
+      employeeId,
+      isAccepted,
+      leaveBalance,
+      totalDays,
+      clockIn,
+      clockOut,
+      leaveDates,
+    } = req.body;
     const id = parseInt(req.params.id);
-    const { name, email, password, isHRAdmin, shiftId, positionId } = req.body;
-    await findEmployeesById(id);
-    const newEmployeeData = await updateEmployee(
+    const accepted = await acceptLeaveRequest(
       id,
-      name,
-      email,
-      password,
-      isHRAdmin,
-      shiftId,
-      positionId
+      isAccepted,
+      employeeId,
+      leaveBalance,
+      totalDays,
+      clockIn,
+      clockOut,
+      leaveDates
     );
 
     res.send({
       status: "success",
-      message: "employee info update success",
-      data: newEmployeeData,
-    });
-  } catch (error: any) {
-    res.send({
-      status: "error",
-      message: error.message,
-    });
-  }
-};
-
-export const deleteEmployeeInfo = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const id = parseInt(req.params.id);
-    await findEmployeesById(id);
-    await deleteEmployee(id);
-
-    res.send({
-      status: "success",
-      message: `Employee with id ${id} successfully deleted`,
+      message: "leave request accepted",
+      data: accepted,
     });
   } catch (error: any) {
     res.send({

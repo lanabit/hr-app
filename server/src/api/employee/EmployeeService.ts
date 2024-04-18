@@ -29,6 +29,7 @@ export const findEmployeesById = async (id: number) => {
 export const createEmployee = async (
   name: string,
   email: string,
+  password: string,
   isHRAdmin: boolean,
   shiftId: number,
   positionId: number
@@ -37,6 +38,7 @@ export const createEmployee = async (
     data: {
       name: name,
       email: email,
+      password: password,
       isHRAdmin: isHRAdmin,
       shiftId: shiftId,
       positionId: positionId,
@@ -50,11 +52,15 @@ export const updateEmployee = async (
   id: number,
   name: string,
   email: string,
+  password: string,
   isHRAdmin: boolean,
   shiftId: number,
   positionId: number
 ) => {
-  if (isHRAdmin == undefined && !(shiftId && positionId && name && email))
+  if (
+    isHRAdmin == undefined &&
+    !(shiftId && password && positionId && name && email)
+  )
     throw Error(`Data is missing some fields.`);
 
   const updateEmployeeData = await prisma.Employee.update({
@@ -64,6 +70,7 @@ export const updateEmployee = async (
     data: {
       name: name,
       email: email,
+      password: password,
       isHRAdmin: isHRAdmin,
       shiftId: shiftId,
       positionId: positionId,

@@ -4,7 +4,7 @@ import NewLeaveRequest from './newLeaveRequest';
 import AcceptLeaveRequest from './acceptLeaveRequest';
 import DenyLeaveRequest from './denyLeaveRequest';
 
-export default function LeaveRequestPage() {
+export default function LeaveRequestComponent() {
   const [leaveData, setLeaveData] = useState([]);
   const [showNewModal, setShowNewModal] = useState(false);
   const [showAcceptModal, setShowAcceptModal] = useState(false);

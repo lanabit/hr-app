@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import { acceptLeaveRequest } from "../../../supports/api/leaveRequest";
+import { useState, useEffect } from 'react';
+import { acceptLeaveRequest } from '../../../supports/api/leaveRequest';
 
 export default function AcceptLeaveRequest({ open, close, data }) {
   if (!open) return null;
-  console.log("cekdata", data.name);
+  console.log('cekdata', data.name);
 
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [message, setMessage] = useState(null);
 
   const closeHandler = (e) => {
-    if (e.target.id === "popup-bg") {
+    if (e.target.id === 'popup-bg') {
       close();
     }
-    if (e.target.id === "close-btn") {
+    if (e.target.id === 'close-btn') {
       close();
       window.location.reload();
     }
@@ -20,7 +20,7 @@ export default function AcceptLeaveRequest({ open, close, data }) {
 
   const submitHandler = async (values) => {
     try {
-      console.log("submit handler data acceptLeaveRequest",values);
+      console.log('submit handler data acceptLeaveRequest', values);
       setMessage(await acceptLeaveRequest(data.id, data));
       setUpdateSuccess(true); // Set Update success to true
     } catch (error) {
@@ -35,15 +35,15 @@ export default function AcceptLeaveRequest({ open, close, data }) {
         <div
           id="popup-bg"
           onClick={closeHandler}
-          className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 backdrop-blur-sm"
         >
-          <div className="bg-white p-4 rounded w-[30%] h-[60%] p-12 flex flex-col gap-8">
-            <div className="flex flex-col my-auto">
+          <div className="flex  h-[60%] w-[30%] flex-col gap-8 rounded bg-white p-12">
+            <div className="my-auto flex flex-col">
               <div className="mx-auto font-bold">{message}</div>
               <button
                 id="close-btn"
                 onClick={closeHandler}
-                className="mt-8 rounded-lg border p-2 bg-slate-300"
+                className="mt-8 rounded-lg border bg-slate-300 p-2"
               >
                 Close
               </button>
@@ -54,15 +54,15 @@ export default function AcceptLeaveRequest({ open, close, data }) {
         <div
           id="popup-bg"
           onClick={closeHandler}
-          className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 backdrop-blur-sm"
         >
-          <div className="bg-white p-4 rounded w-[30%] h-[60%] p-12 flex flex-col gap-8">
-            <div className="font-bold mx-auto">Accept Leave Request</div>
+          <div className="flex h-[60%] w-[30%] flex-col gap-8 rounded bg-white p-12 ">
+            <div className="mx-auto font-bold">Accept Leave Request</div>
             <div className="mx-auto">{`Accept leave request with Request ID ${data.id} issued by ${data.employee.name}?`}</div>
             <button
               onClick={submitHandler}
               type="submit"
-              className="mt-8 rounded-lg border p-2 bg-slate-300"
+              className="mt-8 rounded-lg border bg-slate-300 p-2"
             >
               Yes, Accept Request
             </button>

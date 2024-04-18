@@ -2,7 +2,7 @@ import { getEmployees } from '../../supports/api/employee';
 import { useEffect, useState, useRef } from 'react';
 import { getAttendance } from '../../supports/api/attendance';
 
-export default function AttendancePage() {
+export default function AttendanceComponent() {
   const [attendanceData, setAttendanceData] = useState([]);
 
   useEffect(() => {

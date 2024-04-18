@@ -1,4 +1,4 @@
-import { axiosInstance } from "../../../config/axios";
+import { axiosInstance } from '../../config/axios';
 
 const DateTransform = (dateData) => {
   return new Date(dateData);
@@ -30,19 +30,19 @@ export const getLeaveRequests = async () => {
       a[i].totalDays = totalLeaveDays(a[i].startDate, a[i].endDate).totalLeave;
       a[i].leaveDates = totalLeaveDays(a[i].startDate, a[i].endDate).leaveDates;
       a[i].startDate = DateTransform(a[i].startDate).toLocaleDateString(
-        "us-US",
+        'us-US',
         {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        },
       );
-      a[i].endDate = DateTransform(a[i].endDate).toLocaleDateString("us-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
+      a[i].endDate = DateTransform(a[i].endDate).toLocaleDateString('us-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
       });
     }
     return leaveRequests.data.data;
@@ -65,10 +65,10 @@ export const postLeaveRequest = async (data) => {
 
   try {
     let leaveRequests = await axiosInstance.post(`/leaverequests`, postData);
-    console.log("leaveRequest", leaveRequests);
-    if (leaveRequests.data.status !== "success")
-      throw new Error("Leave Request Failed");
-    return "Leave request sent successfully";
+    console.log('leaveRequest', leaveRequests);
+    if (leaveRequests.data.status !== 'success')
+      throw new Error('Leave Request Failed');
+    return 'Leave request sent successfully';
   } catch (error) {
     return error.message;
   }
@@ -76,7 +76,7 @@ export const postLeaveRequest = async (data) => {
 
 export const acceptLeaveRequest = async (id, data) => {
   try {
-    console.log("id", id, "typeof id:", typeof id);
+    console.log('id', id, 'typeof id:', typeof id);
     console.log(data);
     let { employeeId, employee, totalDays, leaveDates } = data;
     let leaveBalance = employee.leaveBalance;
@@ -94,12 +94,12 @@ export const acceptLeaveRequest = async (id, data) => {
 
     let acceptRequest = await axiosInstance.patch(
       `/leaverequests/${id}`,
-      patchData
+      patchData,
     );
     console.log(acceptRequest);
-    if (acceptRequest.data.status !== "success")
-      throw new Error("Leave Request Confirmation Failed");
-    return "Leave request has been accepted";
+    if (acceptRequest.data.status !== 'success')
+      throw new Error('Leave Request Confirmation Failed');
+    return 'Leave request has been accepted';
   } catch (error) {
     return error.message;
   }
@@ -107,7 +107,7 @@ export const acceptLeaveRequest = async (id, data) => {
 
 export const denyLeaveRequest = async (id, data) => {
   try {
-    console.log("id", id, "typeof id:", typeof id);
+    console.log('id', id, 'typeof id:', typeof id);
     console.log(data);
     let { employeeId, employee, totalDays, leaveDates } = data;
     let leaveBalance = employee.leaveBalance;
@@ -125,13 +125,13 @@ export const denyLeaveRequest = async (id, data) => {
 
     let acceptRequest = await axiosInstance.patch(
       `/leaverequests/${id}`,
-      patchData
+      patchData,
     );
 
     console.log(acceptRequest);
-    if (acceptRequest.data.status !== "success")
-      throw new Error("Leave Request Decline Failed");
-    return "Leave request has been declined";
+    if (acceptRequest.data.status !== 'success')
+      throw new Error('Leave Request Decline Failed');
+    return 'Leave request has been declined';
   } catch (error) {
     return error.message;
   }

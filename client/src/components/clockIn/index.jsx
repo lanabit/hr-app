@@ -1,19 +1,19 @@
-"use client";
-import { useState, FormEvent } from "react";
-import { Form, Formik, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+'use client';
+import { useState, FormEvent } from 'react';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 // import { axiosInstance } from "@/config/axios";
-import { postAttendance } from "../../supports/api/attendance";
+import { postAttendance } from '../../supports/api/attendance';
 
 export default function ClockIn() {
   return (
     <>
       <Formik
         initialValues={{
-          employeeId: "",
-          date: "",
-          clockIn: "",
-          clockOut: "",
+          employeeId: '',
+          date: '',
+          clockIn: '',
+          clockOut: '',
         }}
         onSubmit={async (values, { resetForm }) => {
           await postAttendance(values);
@@ -22,7 +22,7 @@ export default function ClockIn() {
         {({ dirty }) => {
           return (
             <Form>
-              <div className="text-lg flex flex-col gap-2">
+              <div className="flex flex-col gap-2 text-lg">
                 <label>Employee ID</label>
                 <Field
                   className="border p-2"
@@ -51,7 +51,7 @@ export default function ClockIn() {
                   id="clockOut"
                   name="clockOut"
                 />
-                <button type="submit" className="border p-2 bg-slate-300">
+                <button type="submit" className="border bg-slate-300 p-2">
                   Submit
                 </button>
               </div>

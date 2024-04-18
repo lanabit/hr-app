@@ -1,6 +1,6 @@
-import { Form, Formik, Field, ErrorMessage } from "formik";
-import { newEmployee } from "../../../supports/api/employee";
-import { useState } from "react";
+import { Form, Formik, Field, ErrorMessage } from 'formik';
+import { newEmployee } from '../../../supports/api/employee';
+import { useState } from 'react';
 export default function NewEmployee({ open, close }) {
   if (!open) return null;
 
@@ -8,10 +8,10 @@ export default function NewEmployee({ open, close }) {
   const [message, setMessage] = useState(null);
 
   const closeHandler = (e) => {
-    if (e.target.id === "popup-bg") {
+    if (e.target.id === 'popup-bg') {
       close();
     }
-    if (e.target.id === "close-btn") {
+    if (e.target.id === 'close-btn') {
       close();
       window.location.reload();
     }
@@ -34,15 +34,15 @@ export default function NewEmployee({ open, close }) {
         <div
           id="popup-bg"
           onClick={closeHandler}
-          className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 backdrop-blur-sm"
         >
-          <div className="bg-white p-4 rounded w-[30%] h-[60%] p-12 flex flex-col gap-8">
-            <div className="flex flex-col my-auto">
+          <div className="flex  h-[60%] w-[30%] flex-col gap-8 rounded bg-white p-12">
+            <div className="my-auto flex flex-col">
               <div className="mx-auto font-bold">{message}</div>
               <button
                 id="close-btn"
                 onClick={closeHandler}
-                className="mt-8 rounded-lg border p-2 bg-slate-300"
+                className="mt-8 rounded-lg border bg-slate-300 p-2"
               >
                 Close
               </button>
@@ -53,17 +53,17 @@ export default function NewEmployee({ open, close }) {
         <div
           id="popup-bg"
           onClick={closeHandler}
-          className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 backdrop-blur-sm"
         >
-          <div className="bg-white p-4 rounded w-[30%] h-[60%] p-12 flex flex-col gap-8">
-            <div className="font-bold mx-auto">Create New Employee Data</div>
+          <div className="flex h-[60%] w-[30%] flex-col gap-8 rounded bg-white p-12 ">
+            <div className="mx-auto font-bold">Create New Employee Data</div>
             <Formik
               initialValues={{
-                name: "",
-                email: "",
-                password: "",
-                shiftId: "1",
-                positionId: "1",
+                name: '',
+                email: '',
+                password: '',
+                shiftId: '1',
+                positionId: '1',
               }}
               onSubmit={submitHandler}
             >
@@ -115,7 +115,7 @@ export default function NewEmployee({ open, close }) {
                       </Field>
                       <button
                         type="submit"
-                        className="mt-8 rounded-lg border p-2 bg-slate-300"
+                        className="mt-8 rounded-lg border bg-slate-300 p-2"
                       >
                         Create
                       </button>

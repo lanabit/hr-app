@@ -1,17 +1,17 @@
 // import { axiosInstance } from "../../config/axios";
-import { axiosInstance } from "../../../config/axios";
+import { axiosInstance } from '../../config/axios';
 
 export const postAttendance = async (data) => {
   try {
-    const UTC_DATETIME = "1970-01-01T18:00:00.000Z";
-    let [dateTemp, timeTemp] = UTC_DATETIME.split("T");
+    const UTC_DATETIME = '1970-01-01T18:00:00.000Z';
+    let [dateTemp, timeTemp] = UTC_DATETIME.split('T');
 
     const timeConvert = (time) => {
-      return dateTemp + "T" + time + ":00.000Z";
+      return dateTemp + 'T' + time + ':00.000Z';
     };
 
     const dateConvert = (date) => {
-      return date + "T" + timeTemp;
+      return date + 'T' + timeTemp;
     };
 
     async function deductionLogic() {
@@ -67,12 +67,12 @@ export const postAttendance = async (data) => {
       deduction,
     };
 
-    console.log("new deduction", deduction);
-    const newAttendance = await axiosInstance.post("/attendance", postData, {
+    console.log('new deduction', deduction);
+    const newAttendance = await axiosInstance.post('/attendance', postData, {
       headers: { id: id },
     });
 
-    console.log("data posted");
+    console.log('data posted');
   } catch (error) {
     console.log(error);
   }
@@ -80,9 +80,9 @@ export const postAttendance = async (data) => {
 
 const TimeDisplay = (dateData) => {
   return (
-    new Date(dateData).getUTCHours().toString().padStart(2, "0") +
-    ":" +
-    new Date(dateData).getUTCMinutes().toString().padStart(2, "0")
+    new Date(dateData).getUTCHours().toString().padStart(2, '0') +
+    ':' +
+    new Date(dateData).getUTCMinutes().toString().padStart(2, '0')
   );
 };
 
@@ -94,9 +94,9 @@ export const getAttendance = async () => {
       x.date = new Date(x.date).toDateString();
       x.clockIn = TimeDisplay(x.clockIn);
       x.clockOut = TimeDisplay(x.clockOut);
-      x.deduction = x.deduction.toLocaleString("id-ID", {
-        style: "currency",
-        currency: "IDR",
+      x.deduction = x.deduction.toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
       });
     }
     return attendance.data.data;

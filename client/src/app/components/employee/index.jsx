@@ -1,8 +1,8 @@
-import { getEmployees } from "../../supports/api/employee";
-import { useEffect, useState, useRef } from "react";
-import NewEmployee from "./newEmployee";
-import EditEmployee from "./editEmployee";
-import DeleteEmployee from "./deleteEmployee";
+import { getEmployees } from '../../supports/api/employee';
+import { useEffect, useState, useRef } from 'react';
+import NewEmployee from './newEmployee';
+import EditEmployee from './editEmployee';
+import DeleteEmployee from './deleteEmployee';
 
 export default function EmployeePage() {
   const [employeeData, setEmployeeData] = useState([]);
@@ -22,6 +22,8 @@ export default function EmployeePage() {
     fetchData();
   }, []);
 
+  console.log('employee data:', employeeData);
+
   useEffect(() => {
     // Add event listener to document body to handle clicks outside the table
     const handleClickOutsideTable = (event) => {
@@ -29,9 +31,9 @@ export default function EmployeePage() {
         setSelectedRow(null); // Reset selected row if clicked outside the table
       }
     };
-    document.body.addEventListener("click", handleClickOutsideTable);
+    document.body.addEventListener('click', handleClickOutsideTable);
     return () => {
-      document.body.removeEventListener("click", handleClickOutsideTable); // Remove event listener on component unmount
+      document.body.removeEventListener('click', handleClickOutsideTable); // Remove event listener on component unmount
     };
   }, [employeeId]);
 
@@ -41,13 +43,13 @@ export default function EmployeePage() {
   };
 
   return (
-    <div ref={tableRef} className="p-8 rounded-lg border">
-      <div className="flex items-center justify-between mb-5">
+    <div ref={tableRef} className="rounded-lg border p-8">
+      <div className="mb-5 flex items-center justify-between">
         <div className="text-xl">Employee Page</div>
         <div className="flex gap-3">
           <button
             onClick={() => setShowNewModal(true)}
-            className={`p-2 px-5 rounded-lg text-white font-medium ${
+            className={`rounded-lg p-2 px-5 font-medium text-white ${
               selectedRow === null ? `bg-blue-500` : `bg-slate-300`
             }`}
             disabled={selectedRow === null ? false : true}
@@ -56,7 +58,7 @@ export default function EmployeePage() {
           </button>
           <button
             onClick={() => setShowEditModal(true)}
-            className={`p-2 px-5 rounded-lg text-white font-medium ${
+            className={`rounded-lg p-2 px-5 font-medium text-white ${
               selectedRow === null ? `bg-slate-300` : `bg-blue-500`
             }`}
             disabled={selectedRow === null ? true : false}
@@ -65,7 +67,7 @@ export default function EmployeePage() {
           </button>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className={`p-2 px-5 rounded-lg text-white font-medium ${
+            className={`rounded-lg p-2 px-5 font-medium text-white ${
               selectedRow === null ? `bg-slate-300` : `bg-red-500`
             }`}
             disabled={selectedRow === null ? true : false}
@@ -89,7 +91,7 @@ export default function EmployeePage() {
         data={employeeId}
       ></DeleteEmployee>
       <div>
-        <div className="grid grid-cols-6 gap-2 border-y py-2 justify-items-center">
+        <div className="grid grid-cols-6 justify-items-center gap-2 border-y py-2">
           <div>Name</div>
           <div>Email</div>
           <div className="px-3">Position</div>
@@ -97,15 +99,15 @@ export default function EmployeePage() {
           <div>Shift End</div>
           <div>Leave Balance</div>
         </div>
-        {employeeData.map((x, i) => {
+        {employeeData?.map((x, i) => {
           return (
             <div
               key={i}
               onClick={() => clickHandler(i)}
-              className={`grid py-2 grid-cols-6 gap-2 z-10 border-b hover:cursor-pointer justify-items-center ${
+              className={`z-10 grid grid-cols-6 justify-items-center gap-2 border-b py-2 hover:cursor-pointer ${
                 selectedRow == i
-                  ? "bg-blue-200 hover:bg-blue-200"
-                  : "hover:bg-blue-50"
+                  ? 'bg-blue-200 hover:bg-blue-200'
+                  : 'hover:bg-blue-50'
               }`}
             >
               <div>{x.name}</div>

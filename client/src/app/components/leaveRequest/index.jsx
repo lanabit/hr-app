@@ -1,8 +1,8 @@
-import { getLeaveRequests } from "../../supports/api/leaveRequest";
-import { useState, useEffect } from "react";
-import NewLeaveRequest from "./newLeaveRequest";
-import AcceptLeaveRequest from "./acceptLeaveRequest";
-import DenyLeaveRequest from "./denyLeaveRequest";
+import { getLeaveRequests } from '../../supports/api/leaveRequest';
+import { useState, useEffect } from 'react';
+import NewLeaveRequest from './newLeaveRequest';
+import AcceptLeaveRequest from './acceptLeaveRequest';
+import DenyLeaveRequest from './denyLeaveRequest';
 
 export default function LeaveRequestPage() {
   const [leaveData, setLeaveData] = useState([]);
@@ -33,14 +33,14 @@ export default function LeaveRequestPage() {
   // console.log(leaveData);
 
   return (
-    <div /* ref={tableRef} */ className="p-8 rounded-lg border">
-      <div className="flex items-center justify-between mb-5">
+    <div /* ref={tableRef} */ className="rounded-lg border p-8">
+      <div className="mb-5 flex items-center justify-between">
         <div className="text-xl">Leave Request Page</div>
         <div className="flex gap-3">
           <button
             onClick={() => setShowNewModal(true)}
-            className={`p-2 px-5 rounded-lg text-white font-medium bg-blue-500
-            }`}
+            className={`} rounded-lg bg-blue-500 p-2 px-5 font-medium
+            text-white`}
           >
             New
           </button>
@@ -61,17 +61,17 @@ export default function LeaveRequestPage() {
         data={requestData}
       ></DenyLeaveRequest>
       <div className="w-[50vw]">
-        <div className="grid grid-cols-[10%_20%_50%_10%] gap-2 border-y py-2 justify-items-center">
+        <div className="grid grid-cols-[10%_20%_50%_10%] justify-items-center gap-2 border-y py-2">
           <div className="">Request ID</div>
           <div>Issuer</div>
           <div className="px-3">Details</div>
           <div>Action</div>
         </div>
-        {leaveData.map((x, i) => {
+        {leaveData?.map((x, i) => {
           return (
             <div
               key={i}
-              className="grid gap-2 grid-cols-[10%_20%_50%_10%] py-2 justify-items-center"
+              className="grid grid-cols-[10%_20%_50%_10%] justify-items-center gap-2 py-2"
             >
               <div>{x.id}</div>
               <div>
@@ -85,24 +85,24 @@ export default function LeaveRequestPage() {
                 <div>End Date: {x.endDate}</div>
                 <div>Total Leave Days: {x.totalDays}</div>
                 <div>
-                  Status:{" "}
+                  Status:{' '}
                   {x.status === 1
-                    ? "Accepted"
+                    ? 'Accepted'
                     : x.status === 2
-                    ? "Declined"
-                    : "Pending"}
+                      ? 'Declined'
+                      : 'Pending'}
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <div
                   onClick={() => acceptClickHandler(i)}
-                  className="hover:bg-blue-500 hover:cursor-pointer px-3 py-2 bg-blue-300 rounded-lg text-white"
+                  className="rounded-lg bg-blue-300 px-3 py-2 text-white hover:cursor-pointer hover:bg-blue-500"
                 >
                   Accept
                 </div>
                 <div
                   onClick={() => denyClickHandler(i)}
-                  className="px-3 py-2 hover:bg-red-500 hover:cursor-pointer bg-red-300 rounded-lg text-white"
+                  className="rounded-lg bg-red-300 px-3 py-2 text-white hover:cursor-pointer hover:bg-red-500"
                 >
                   Decline
                 </div>

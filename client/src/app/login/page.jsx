@@ -1,10 +1,10 @@
 'use client';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
-import { loginSchema } from '@/supports/schema/loginSchema';
-import { axiosInstance } from '@/config/axios';
-import { useContext, useEffect } from 'react';
-import { UserContext } from '@/supports/context/userContext';
+import { loginSchema } from '../../supports/schema/loginSchema';
+import { axiosInstance } from '../../config/axios';
+import { useContext } from 'react';
+import { UserContext } from '../../supports/context/userContext';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
@@ -15,20 +15,21 @@ export default function Login() {
     try {
       const res = await axiosInstance.post('/login', values);
 
+      console.log(res.data);
       setUserData({
         id: res.data.data.id,
-        name: res.data.data.name,
-        email: res.data.data.email,
-        position: res.data.data.position,
+        isHRAdmin: res.data.data.isHRAdmin,
+        isClockedIn: false,
+        isClockedOut: false,
       });
 
       localStorage.setItem(
         'user',
         JSON.stringify({
           id: res.data.data.id,
-          name: res.data.data.name,
-          email: res.data.data.email,
-          position: res.data.data.position,
+          isHRAdmin: res.data.data.isHRAdmin,
+          isClockedIn: false,
+          isClockedOut: false,
         }),
       );
       toast.success('Login Berhasil');

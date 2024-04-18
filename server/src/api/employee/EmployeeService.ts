@@ -1,8 +1,8 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 export const findEmployees = async () => {
-  const employees: any = await prisma.Employee.findMany({
+  const employees: any = await prisma.employee.findMany({
     include: {
       position: true,
       shift: true,

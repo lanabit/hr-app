@@ -3,11 +3,13 @@ CREATE TABLE `Employee` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
     `isHRAdmin` BOOLEAN NOT NULL,
     `leaveBalance` INTEGER NOT NULL DEFAULT 12,
     `shiftId` INTEGER NOT NULL,
     `positionId` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Employee_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -33,7 +35,8 @@ CREATE TABLE `Shift` (
 CREATE TABLE `LeaveRequest` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `employeeId` INTEGER NOT NULL,
-    `status` BOOLEAN NOT NULL DEFAULT false,
+    `type` VARCHAR(191) NOT NULL,
+    `status` INTEGER NOT NULL DEFAULT 0,
     `startDate` DATE NOT NULL,
     `endDate` DATE NOT NULL,
 
@@ -44,11 +47,13 @@ CREATE TABLE `LeaveRequest` (
 CREATE TABLE `Attendance` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `employeeId` INTEGER NOT NULL,
+    `date` DATE NOT NULL,
     `clockIn` TIME NOT NULL,
-    `clockOut` TIME NOT NULL,
-    `isOnLeave` BOOLEAN NOT NULL DEFAULT false,
-    `deduction` INTEGER NOT NULL,
+    `clockOut` TIME NULL,
+    `isOnLeave` BOOLEAN NULL DEFAULT false,
+    `deduction` INTEGER NULL,
 
+    UNIQUE INDEX `Attendance_employeeId_date_key`(`employeeId`, `date`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

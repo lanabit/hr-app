@@ -1,12 +1,12 @@
 'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { UserContext } from '@/supports/context/userContext';
+import { UserContext } from '../supports/context/userContext';
 import { useState } from 'react';
-import Navbar from '@/components/cores/Navbar';
+import Navbar from '../components/cores/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 const inter = Inter({ subsets: ['latin'] });
 

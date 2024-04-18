@@ -1,12 +1,12 @@
-import { axiosInstance } from "../../../config/axios";
+import { axiosInstance } from '../../../config/axios';
 
 export const getEmployees = async () => {
   const DateTransform = (dateData) => {
-    return new Date(dateData).getUTCHours().toString().padStart(2, "0") + ":00";
+    return new Date(dateData).getUTCHours().toString().padStart(2, '0') + ':00';
   };
 
   try {
-    let employeeData = await axiosInstance.get(`/employees`);
+    let employeeData = await axiosInstance.get(`/employees/`);
     let a = employeeData.data.data;
     for (let i = 0; i < a.length; i++) {
       a[i].start = DateTransform(a[i].shift.start);
@@ -32,7 +32,7 @@ export const newEmployee = async (data) => {
     console.log(data);
     let { name, email, password, positionId, shiftId } = data;
     const isHRAdmin = false;
-    console.log("shiftId pre parseInt", shiftId);
+    console.log('shiftId pre parseInt', shiftId);
     positionId = parseInt(positionId);
     shiftId = parseInt(shiftId);
 
@@ -44,7 +44,7 @@ export const newEmployee = async (data) => {
       shiftId,
       positionId,
     };
-    console.log(postData)
+    console.log(postData);
     let employeeData = await axiosInstance.post(`/employees`, postData);
     return `New employee data has been created`;
   } catch (error) {
@@ -57,7 +57,7 @@ export const editEmployee = async (id, data) => {
     console.log(data);
     let { name, email, password, positionId, shiftId } = data;
     const isHRAdmin = false;
-    console.log("shiftId pre parseInt", shiftId);
+    console.log('shiftId pre parseInt', shiftId);
     positionId = parseInt(positionId);
     shiftId = parseInt(shiftId);
 
@@ -80,7 +80,7 @@ export const deleteEmployee = async (id, data) => {
   try {
     console.log(data);
     let { confirm } = data;
-    if (confirm !== "Delete Employee") throw new Error("Employee Delete Fail!");
+    if (confirm !== 'Delete Employee') throw new Error('Employee Delete Fail!');
 
     await axiosInstance.delete(`/employees/${id}`);
     console.log(`id ${id} has been deleted`);

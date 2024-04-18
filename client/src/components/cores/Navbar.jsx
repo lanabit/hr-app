@@ -1,6 +1,6 @@
 'use client';
-import { axiosInstance } from '@/config/axios';
-import { UserContext } from '@/supports/context/userContext';
+import { axiosInstance } from '../../config/axios';
+import { UserContext } from '../../supports/context/userContext';
 import { useContext, useEffect } from 'react';
 export default function Navbar() {
   const { userData, setUserData } = useContext(UserContext);

@@ -28,9 +28,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const LoginRouter_1 = __importDefault(require("../login/LoginRouter"));
+const EmployeeRouter_1 = __importDefault(require("../employee/EmployeeRouter"));
+const AttendanceRouter_1 = __importDefault(require("../attendance/AttendanceRouter"));
+const LeaveRequestRouter_1 = __importDefault(require("../leaveRequest/LeaveRequestRouter"));
 const router = (0, express_1.Router)();
+const LoginRouter_1 = __importDefault(require("../login/LoginRouter"));
+
 router.use((0, cors_1.default)());
 router.use(express_1.default.json());
+router.use("/employees", EmployeeRouter_1.default);
+router.use("/attendance", AttendanceRouter_1.default);
+router.use("/leaverequests", LeaveRequestRouter_1.default);
+router.use((0, cors_1.default)());
 router.use('/login', LoginRouter_1.default);
+
 exports.default = router;

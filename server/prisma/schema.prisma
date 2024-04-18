@@ -14,20 +14,53 @@ datasource db {
 }
 
 model Employee {
-  id        Int      @id @default(autoincrement())
-  position  Int
-  name      String
-  email     String
-  password  String
-  positions Position @relation(fields: [position], references: [id])
-
-  @@map("employs")
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  password     String
+  isHRAdmin    Boolean
+  leaveBalance Int            @default(12)
+  shift        Shift          @relation(fields: [shiftId], references: [id])
+  position     Position       @relation(fields: [positionId], references: [id])
+  shiftId      Int
+  positionId   Int
+  LeaveRequest LeaveRequest[]
+  Attendance   Attendance[]
 }
 
 model Position {
-  id      Int        @id @default(autoincrement())
-  role    String
-  employs Employee[]
+  id           Int        @id @default(autoincrement())
+  positionName String
+  salary       Int
+  Employee     Employee[]
+}
 
-  @@map("positions")
+model Shift {
+  id       Int        @id @default(autoincrement())
+  start    DateTime   @db.Time()
+  end      DateTime   @db.Time()
+  Employee Employee[]
+}
+
+model LeaveRequest {
+  id         Int      @id @default(autoincrement())
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int
+  type       String
+  status     Int      @default(0)
+  startDate  DateTime @db.Date()
+  endDate    DateTime @db.Date()
+}
+
+model Attendance {
+  id         Int       @id @default(autoincrement())
+  employee   Employee  @relation(fields: [employeeId], references: [id])
+  employeeId Int
+  date       DateTime  @db.Date
+  clockIn    DateTime  @db.Time()
+  clockOut   DateTime? @db.Time()
+  isOnLeave  Boolean?  @default(false)
+  deduction  Int?
+
+  @@unique([employeeId, date])
 }

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const LeaveRequestController_1 = require("./LeaveRequestController");
+const router = (0, express_1.Router)();
+router.get("/", LeaveRequestController_1.showLeaveRequests);
+router.get("/:id", LeaveRequestController_1.showLeaveRequestsById);
+router.post("/", LeaveRequestController_1.newLeaveRequest);
+router.patch("/:id", LeaveRequestController_1.acceptLeaveRequestControl);
+exports.default = router;

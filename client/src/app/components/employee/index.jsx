@@ -30,7 +30,6 @@ export default function EmployeePage() {
       }
     };
     document.body.addEventListener("click", handleClickOutsideTable);
-    console.log(employeeId);
     return () => {
       document.body.removeEventListener("click", handleClickOutsideTable); // Remove event listener on component unmount
     };
@@ -103,8 +102,10 @@ export default function EmployeePage() {
             <div
               key={i}
               onClick={() => clickHandler(i)}
-              className={`grid py-2 grid-cols-6 gap-2 z-10 border-b hover:bg-blue-50 hover:cursor-pointer justify-items-center ${
-                selectedRow == i ? "bg-blue-200 hover:bg-blue-200" : null
+              className={`grid py-2 grid-cols-6 gap-2 z-10 border-b hover:cursor-pointer justify-items-center ${
+                selectedRow == i
+                  ? "bg-blue-200 hover:bg-blue-200"
+                  : "hover:bg-blue-50"
               }`}
             >
               <div>{x.name}</div>

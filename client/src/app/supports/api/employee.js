@@ -30,7 +30,7 @@ export const getEmployeeById = async (id) => {
 export const newEmployee = async (data) => {
   try {
     console.log(data);
-    let { name, email, positionId, shiftId } = data;
+    let { name, email, password, positionId, shiftId } = data;
     const isHRAdmin = false;
     console.log("shiftId pre parseInt", shiftId);
     positionId = parseInt(positionId);
@@ -39,22 +39,23 @@ export const newEmployee = async (data) => {
     const postData = {
       name,
       email,
+      password,
       isHRAdmin,
       shiftId,
       positionId,
     };
+    console.log(postData)
     let employeeData = await axiosInstance.post(`/employees`, postData);
-    console.log("created!");
     return `New employee data has been created`;
   } catch (error) {
-    console.log(error);
+    return error.message;
   }
 };
 
 export const editEmployee = async (id, data) => {
   try {
     console.log(data);
-    let { name, email, positionId, shiftId } = data;
+    let { name, email, password, positionId, shiftId } = data;
     const isHRAdmin = false;
     console.log("shiftId pre parseInt", shiftId);
     positionId = parseInt(positionId);
@@ -63,6 +64,7 @@ export const editEmployee = async (id, data) => {
     const postData = {
       name,
       email,
+      password,
       isHRAdmin,
       shiftId,
       positionId,

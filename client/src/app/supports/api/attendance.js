@@ -78,7 +78,29 @@ export const postAttendance = async (data) => {
   }
 };
 
+const TimeDisplay = (dateData) => {
+  return (
+    new Date(dateData).getUTCHours().toString().padStart(2, "0") +
+    ":" +
+    new Date(dateData).getUTCMinutes().toString().padStart(2, "0")
+  );
+};
+
 export const getAttendance = async () => {
-  const attendance = await axiosInstance.get(`/attendance`);
-  return attendance;
+  try {
+    const attendance = await axiosInstance.get(`/attendance`);
+    let a = attendance.data.data;
+    for (let x of a) {
+      x.date = new Date(x.date).toDateString();
+      x.clockIn = TimeDisplay(x.clockIn);
+      x.clockOut = TimeDisplay(x.clockOut);
+      x.deduction = x.deduction.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+    }
+    return attendance.data.data;
+  } catch (error) {
+    return console.log(error);
+  }
 };

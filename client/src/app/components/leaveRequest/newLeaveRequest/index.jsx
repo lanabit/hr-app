@@ -1,12 +1,12 @@
 import { Form, Formik, Field, ErrorMessage } from "formik";
-import { editEmployee, getEmployeeById } from "../../../supports/api/employee";
-import { useState, useEffect } from "react";
+import { newEmployee } from "../../../supports/api/employee";
+import { useState } from "react";
+import { postLeaveRequest } from "../../../supports/api/leaveRequest";
 
-export default function EditEmployee({ open, close, data }) {
+export default function NewLeaveRequest({ open, close }) {
   if (!open) return null;
-  console.log("cekdata", data.name);
 
-  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [message, setMessage] = useState(null);
 
   const closeHandler = (e) => {
@@ -19,20 +19,20 @@ export default function EditEmployee({ open, close, data }) {
     }
   };
 
-  const submitHandler = async (values, { resetForm }) => {
+  const submitHandler = async (values) => {
     try {
       console.log(values);
-      setMessage(await editEmployee(data.id, values));
-      setUpdateSuccess(true); // Set Update success to true
+      setMessage(await postLeaveRequest(values));
+      setSubmissionSuccess(true); // Set submission success to true
     } catch (error) {
       console.error(error);
-      setUpdateSuccess(false); // Set Update success to false if there's an error
+      setSubmissionSuccess(false); // Set submission success to false if there's an error
     }
   };
 
   return (
     <>
-      {updateSuccess ? (
+      {submissionSuccess ? (
         <div
           id="popup-bg"
           onClick={closeHandler}
@@ -58,15 +58,13 @@ export default function EditEmployee({ open, close, data }) {
           className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center"
         >
           <div className="bg-white p-4 rounded w-[30%] h-[60%] p-12 flex flex-col gap-8">
-            <div className="font-bold mx-auto">Update Employee Data</div>
-            <div className="mx-auto">{`Updating data for ${data.name} (ID: ${data.id})`}</div>
+            <div className="font-bold mx-auto">Issue New Leave Request</div>
             <Formik
               initialValues={{
-                name: data.name,
-                email: data.email,
-                password: data.password,
-                shiftId: data.shiftId.toString(),
-                positionId: data.positionId.toString(),
+                employeeId: "",
+                type: "Annual Leave",
+                startDate: "",
+                endDate: "",
               }}
               onSubmit={submitHandler}
             >
@@ -74,53 +72,42 @@ export default function EditEmployee({ open, close, data }) {
                 return (
                   <Form>
                     <div className="flex flex-col gap-2">
-                      <label>Name</label>
+                      <label>Employee ID</label>
                       <Field
                         className="border p-2"
-                        type="text"
-                        id="name"
-                        name="name"
+                        type="number"
+                        id="employeeId"
+                        name="employeeId"
                       />
-                      <label>Email</label>
-                      <Field
-                        className="border p-2"
-                        type="email"
-                        id="email"
-                        name="email"
-                      />
-                      <label>Password</label>
-                      <Field
-                        className="border p-2"
-                        type="password"
-                        id="password"
-                        name="password"
-                      />
-                      <label>Position</label>
+                      <label>Type</label>
                       <Field
                         className="border p-2"
                         as="select"
-                        id="positionId"
-                        name="positionId"
+                        id="types"
+                        name="types"
                       >
-                        <option value="3">Programmer</option>
-                        <option value="2">Product/Project Manager</option>
-                        <option value="1">Manager</option>
+                        <option value="Annual Leave">Annual Leave</option>
+                        <option value="Sick Leave">Sick Leave</option>
                       </Field>
-                      <label>Shift</label>
+                      <label>Start Date</label>
                       <Field
                         className="border p-2"
-                        as="select"
-                        id="shiftId"
-                        name="shiftId"
-                      >
-                        <option value="1">09:00 - 18.00</option>
-                        <option value="2">13.00 - 22.00</option>
-                      </Field>
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                      />
+                      <label>End Date</label>
+                      <Field
+                        className="border p-2"
+                        type="date"
+                        id="endDate"
+                        name="endDate"
+                      />
                       <button
                         type="submit"
                         className="mt-8 rounded-lg border p-2 bg-slate-300"
                       >
-                        Update
+                        Send
                       </button>
                     </div>
                   </Form>

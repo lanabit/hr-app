@@ -61,6 +61,7 @@ export default function NewEmployee({ open, close }) {
               initialValues={{
                 name: "",
                 email: "",
+                password: "",
                 shiftId: "1",
                 positionId: "1",
               }}
@@ -83,6 +84,13 @@ export default function NewEmployee({ open, close }) {
                         type="email"
                         id="email"
                         name="email"
+                      />
+                      <label>Password</label>
+                      <Field
+                        className="border p-2"
+                        type="password"
+                        id="password"
+                        name="password"
                       />
                       <label>Position</label>
                       <Field

@@ -16,7 +16,7 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { email, password } = req.body;
         const [user] = yield (0, LoginService_1.LoginQuery)(email);
         if (user.password != password) {
-            return res.status(404).send('Wrong password');
+            return res.status(404).json({ message: 'Wrong password' });
         }
         const { id, position, name } = user;
         return res.send({

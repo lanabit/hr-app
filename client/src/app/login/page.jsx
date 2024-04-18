@@ -3,16 +3,17 @@ import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
 import { loginSchema } from '@/supports/schema/loginSchema';
 import { axiosInstance } from '@/config/axios';
-import { useEffect, useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext } from '@/supports/context/userContext';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const { userData, setUserData } = useContext(UserContext);
+  const router = useRouter();
 
   const loginHandle = async (values) => {
     try {
       const res = await axiosInstance.post('/login', values);
-      // console.log(res.data.data);
 
       setUserData({
         id: res.data.data.id,
@@ -30,8 +31,13 @@ export default function Login() {
           position: res.data.data.position,
         }),
       );
+      toast.success('Login Berhasil');
+
+      router.push('/dashboard');
     } catch (error) {
-      console.log(error);
+      toast.error(
+        error.message ? error.message : 'Login Failed Please Try Again!',
+      );
     }
   };
 

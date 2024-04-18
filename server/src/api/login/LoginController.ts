@@ -8,7 +8,7 @@ export const Login = async (req: Request, res: Response) => {
     const [user] = await LoginQuery(email);
 
     if (user.password != password) {
-      return res.status(404).send('Wrong password');
+      return res.status(404).json({ message: 'Wrong password' });
     }
 
     const { id, position, name } = user;

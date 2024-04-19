@@ -1,4 +1,5 @@
 import { axiosInstance } from '../../config/axios';
+import { toast } from 'react-toastify';
 
 const DateTransform = (dateData) => {
   return new Date(dateData);
@@ -66,10 +67,13 @@ export const postLeaveRequest = async (data) => {
   try {
     let leaveRequests = await axiosInstance.post(`/leaverequests`, postData);
     console.log('leaveRequest', leaveRequests);
-    if (leaveRequests.data.status !== 'success')
+    if (leaveRequests.data.status !== 'success') {
       throw new Error('Leave Request Failed');
+    }
+    toast.success('Leave request sent');
     return 'Leave request sent successfully';
   } catch (error) {
+    toast.error(error.message);
     return error.message;
   }
 };
@@ -97,10 +101,14 @@ export const acceptLeaveRequest = async (id, data) => {
       patchData,
     );
     console.log(acceptRequest);
-    if (acceptRequest.data.status !== 'success')
+    if (acceptRequest.data.status !== 'success') {
       throw new Error('Leave Request Confirmation Failed');
+    }
+
+    toast.success('Leave request has been accepted');
     return 'Leave request has been accepted';
   } catch (error) {
+    toast.error(error.message);
     return error.message;
   }
 };
@@ -128,11 +136,14 @@ export const denyLeaveRequest = async (id, data) => {
       patchData,
     );
 
-    console.log(acceptRequest);
-    if (acceptRequest.data.status !== 'success')
+    if (acceptRequest.data.status !== 'success') {
       throw new Error('Leave Request Decline Failed');
+    }
+
+    toast.success('Leave request has been declined');
     return 'Leave request has been declined';
   } catch (error) {
+    toast.error(error.message);
     return error.message;
   }
 };

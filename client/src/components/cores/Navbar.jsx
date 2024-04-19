@@ -9,14 +9,14 @@ export default function Navbar() {
   // const navigate = useRouter();
   const { userData, setUserData } = useContext(UserContext);
 
+  const localStorageData = () => {
+    let userLocalStorage = localStorage.getItem('user');
+    return JSON.parse(userLocalStorage);
+  };
+
   const handleKeepLogin = async () => {
     try {
-      let userLocalStorage = localStorage.getItem('user');
-      userLocalStorage = JSON.parse(userLocalStorage);
-
-      const userId = userLocalStorage.id;
-
-      //   console.log(userLocalStorage.id);
+      const userId = localStorageData().id;
 
       let res = await axiosInstance.post(`/login/keep-login`, { userId });
       res = res.data;
@@ -26,6 +26,7 @@ export default function Navbar() {
         isHRAdmin: res.isHRAdmin,
         isClockedIn: false,
         isClockedOut: false,
+        attendanceId: 0,
       });
     } catch (error) {
       console.log(error);
@@ -42,6 +43,8 @@ export default function Navbar() {
   useEffect(() => {
     handleKeepLogin();
   }, []);
+
+  const userLocalStorage = localStorageData();
 
   return (
     <div className="h-[100vh]">
@@ -85,18 +88,33 @@ export default function Navbar() {
                       Leave Request
                     </Link>
                   </li>
-                  <li>
-                    <Link className="hover:text-burnorange" href="/clock-in">
-                      Clock In
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="hover:text-burnorange" href="/clock-out">
-                      Clock Out
-                    </Link>
-                  </li>
+                  {userLocalStorage.isClockedIn ? null : (
+                    <li>
+                      <Link className="hover:text-burnorange" href="/clock-in">
+                        Clock In
+                      </Link>
+                    </li>
+                  )}
+                  {userLocalStorage.isClockedOut ? null : (
+                    <li>
+                      <Link className="hover:text-burnorange" href="/clock-out">
+                        Clock Out
+                      </Link>
+                    </li>
+                  )}
                 </div>
-                <li onClick={handleLogout}>Logout</li>
+                <button
+                  onClick={handleLogout}
+                  disabled={
+                    userLocalStorage.isClockedIn &&
+                    userLocalStorage.isClockedOut
+                      ? false
+                      : true
+                  }
+                  className="btn btn-sm"
+                >
+                  Logout
+                </button>
 
                 {/* Close button */}
                 <input id="my-drawer" type="checkbox" className="hidden" />

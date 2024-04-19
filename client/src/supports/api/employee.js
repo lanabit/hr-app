@@ -1,4 +1,5 @@
 import { axiosInstance } from '../../config/axios';
+import { toast } from 'react-toastify';
 
 export const getEmployees = async () => {
   const DateTransform = (dateData) => {
@@ -46,8 +47,13 @@ export const newEmployee = async (data) => {
     };
     console.log(postData);
     let employeeData = await axiosInstance.post(`/employees`, postData);
+    if (employeeData.data.status !== 'success') {
+      throw new Error('New employee creation failed');
+    }
+    toast.success(`Data creation success`);
     return `New employee data has been created`;
   } catch (error) {
+    toast.error(error.message);
     return error.message;
   }
 };
@@ -70,6 +76,10 @@ export const editEmployee = async (id, data) => {
       positionId,
     };
     let employeeData = await axiosInstance.put(`/employees/${id}`, postData);
+    if (employeeData.data.status !== 'success') {
+      throw new Error('Update Failed');
+    }
+    toast.success('Data update success');
     return `Employee data of ID ${id} has been updated`;
   } catch (error) {
     return error.message;
@@ -78,14 +88,14 @@ export const editEmployee = async (id, data) => {
 
 export const deleteEmployee = async (id, data) => {
   try {
-    console.log(data);
     let { confirm } = data;
     if (confirm !== 'Delete Employee') throw new Error('Employee Delete Fail!');
 
     await axiosInstance.delete(`/employees/${id}`);
-    console.log(`id ${id} has been deleted`);
+    toast.success(`Data deletion success`);
     return `Employee data of ID ${id} has been deleted`;
   } catch (error) {
+    toast.error(error.message);
     return error.message;
   }
 };

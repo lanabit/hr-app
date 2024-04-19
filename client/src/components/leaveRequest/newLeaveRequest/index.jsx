@@ -3,7 +3,7 @@ import { newEmployee } from '../../../supports/api/employee';
 import { useState } from 'react';
 import { postLeaveRequest } from '../../../supports/api/leaveRequest';
 
-export default function NewLeaveRequest({ open, close }) {
+export default function NewLeaveRequest({ open, close, id }) {
   if (!open) return null;
 
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -61,7 +61,7 @@ export default function NewLeaveRequest({ open, close }) {
             <div className="mx-auto font-bold">Issue New Leave Request</div>
             <Formik
               initialValues={{
-                employeeId: '',
+                employeeId: id,
                 type: 'Annual Leave',
                 startDate: '',
                 endDate: '',
@@ -72,13 +72,6 @@ export default function NewLeaveRequest({ open, close }) {
                 return (
                   <Form>
                     <div className="flex flex-col gap-2">
-                      <label>Employee ID</label>
-                      <Field
-                        className="border p-2"
-                        type="number"
-                        id="employeeId"
-                        name="employeeId"
-                      />
                       <label>Type</label>
                       <Field
                         className="border p-2"

@@ -16,10 +16,10 @@ export default function AttendanceComponent() {
 
   console.log(attendanceData);
   return (
-    <div className="rounded-lg border p-8">
-      <div className="mb-5 flex flex-col">
+    <div className="w-auto rounded-lg border p-8">
+      <div className="mb-5 flex w-auto flex-col bg-blue-300">
         <div className="text-xl">Attendance Page</div>
-        <div className="grid grid-cols-6">
+        <div className="grid grid-cols-6 gap-3">
           <div>ID</div>
           <div>Date</div>
           <div>Clock In</div>
@@ -29,7 +29,7 @@ export default function AttendanceComponent() {
         </div>
         {attendanceData?.map((x, i) => {
           return (
-            <div className="grid grid-cols-6 bg-pink-200">
+            <div className="grid grid-cols-6 items-center gap-3 bg-pink-200">
               <div>{x.employeeId}</div>
               <div>{x.date}</div>
               <div>{x.clockIn}</div>

@@ -21,6 +21,7 @@ export default function Login() {
         isHRAdmin: res.data.data.isHRAdmin,
         isClockedIn: false,
         isClockedOut: false,
+        attendanceId: 0,
       });
 
       localStorage.setItem(
@@ -30,9 +31,10 @@ export default function Login() {
           isHRAdmin: res.data.data.isHRAdmin,
           isClockedIn: false,
           isClockedOut: false,
+          attendanceId: 0,
         }),
       );
-      toast.success('Login Berhasil');
+      toast.success('Login Successful');
 
       router.push('/dashboard');
     } catch (error) {
@@ -51,7 +53,6 @@ export default function Login() {
       validationSchema={loginSchema}
       onSubmit={(values) => {
         loginHandle(values);
-        // console.log(values);
       }}
     >
       <Form>

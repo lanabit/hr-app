@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }) {
   const [userData, setUserData] = useState(null);
-  console.log('userData layout:', userData);
   return (
     <UserContext.Provider value={{ userData, setUserData }}>
       <html lang="en">
@@ -23,7 +22,7 @@ export default function RootLayout({ children }) {
               <Navbar />
             </div>
             <ProtectedRoute>
-              <div className="pl-[150px]">{children}</div>
+              <div className="pl-[200px] pt-[50px]">{children}</div>
             </ProtectedRoute>
           </div>
         </body>

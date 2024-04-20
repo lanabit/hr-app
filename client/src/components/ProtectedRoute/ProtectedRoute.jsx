@@ -12,10 +12,9 @@ export default function ProtectedRoute({ children }) {
     // Testing route path
     const protectedPath = ['/admin-dashboard', '/dashboard'];
     const protectedPathAdmin = ['/attendance', '/employee'];
+    const protectedPathClockedIn = ['/clock-in'];
+    const protectedPathClockedOut = ['/clock-out'];
 
-    // if (userData?.position != 1 && protectedPathAdmin.includes(path)) {
-    //   navigate.push('/login');
-    // }
     if (!userData) {
       navigate.push('/login');
     }
@@ -23,6 +22,19 @@ export default function ProtectedRoute({ children }) {
     if (userData?.isHRAdmin == false) {
       navigate.push('/dashboard');
     }
+
+    // if (
+    //   userData?.isClockedIn == true &&
+    //   protectedPathClockedIn.includes(path)
+    // ) {
+    //   navigate.push('/dashboard');
+    // }
+    // if (
+    //   userData?.isClockedOut == true &&
+    //   protectedPathClockedOut.includes(path)
+    // ) {
+    //   navigate.push('/dashboard');
+    // }
   };
 
   useEffect(() => {

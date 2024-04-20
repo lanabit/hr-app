@@ -3,10 +3,10 @@ import { axiosInstance } from '../../config/axios';
 import { UserContext } from '../../supports/context/userContext';
 import { useContext, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { MdClose } from 'react-icons/md';
 
 export default function Navbar() {
-  // const navigate = useRouter();
   const { userData, setUserData } = useContext(UserContext);
 
   const localStorageData = () => {
@@ -49,40 +49,43 @@ export default function Navbar() {
   return (
     <div className="h-[100vh]">
       {!userData ? null : (
-        <div className="h-[100%] w-full bg-red-300 p-10">
+        <div className="bg-provincial border-charcoal h-full border-r-4 border-dashed pt-6">
           <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
-              <label htmlFor="my-drawer" className="drawer-button">
-                Masuk
+              <label
+                htmlFor="my-drawer"
+                className="drawer-button flex justify-center"
+              >
+                <GiHamburgerMenu size={25} className="text-charcoal" />
               </label>
             </div>
-            <div className="drawer-side">
+            <div className="drawer-side ">
               <label
                 htmlFor="my-drawer"
                 aria-label="close sidebar"
                 className="drawer-overlay"
               ></label>
-              <ul className="text-shuttlegray menu relative min-h-full w-80 bg-base-200 p-4 font-bold">
+              <ul className="text-gunmetal bg-santas menu relative min-h-full w-80 p-4 font-bold">
                 <div className="pt-10">
                   {userData?.isHRAdmin == true ? (
                     <>
                       <li>
                         <Link
-                          className="hover:text-burnorange"
+                          className="hover:text-provincial"
                           href="/employee"
                         >
                           Employee
                         </Link>
                       </li>
-                      <li className="hover:text-burnorange">
+                      <li className="hover:text-provincial">
                         <Link href="/attendance">Attendance</Link>
                       </li>
                     </>
                   ) : null}
                   <li>
                     <Link
-                      className="hover:text-burnorange"
+                      className="hover:text-provincial"
                       href="/leave-request"
                     >
                       Leave Request
@@ -90,14 +93,14 @@ export default function Navbar() {
                   </li>
                   {userLocalStorage.isClockedIn ? null : (
                     <li>
-                      <Link className="hover:text-burnorange" href="/clock-in">
+                      <Link className="hover:text-provincial" href="/clock-in">
                         Clock In
                       </Link>
                     </li>
                   )}
                   {userLocalStorage.isClockedOut ? null : (
                     <li>
-                      <Link className="hover:text-burnorange" href="/clock-out">
+                      <Link className="hover:text-provincial" href="/clock-out">
                         Clock Out
                       </Link>
                     </li>
@@ -119,7 +122,9 @@ export default function Navbar() {
                 {/* Close button */}
                 <input id="my-drawer" type="checkbox" className="hidden" />
                 <div className="absolute right-5">
-                  <label htmlFor="my-drawer">Keluar</label>
+                  <label htmlFor="my-drawer">
+                    <MdClose size={25} className="hover:text-provincial" />
+                  </label>
                 </div>
               </ul>
             </div>

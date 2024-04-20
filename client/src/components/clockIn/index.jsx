@@ -1,9 +1,13 @@
 'use client';
-import { Form, Formik, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { Form, Formik, Field } from 'formik';
 import { postAttendance } from '../../supports/api/attendance';
+import { useRouter } from 'next/router';
 
 export default function ClockIn() {
+  const navigate = () => {
+    route = useRouter();
+    return route;
+  };
   let userId = JSON.parse(localStorage.getItem('user'))?.id;
   return (
     <>
@@ -16,7 +20,8 @@ export default function ClockIn() {
         }}
         onSubmit={async (values) => {
           await postAttendance(values);
-          window.location.reload()
+          window.location.reload();
+          navigate('/dashboard');
         }}
       >
         {({ dirty }) => {

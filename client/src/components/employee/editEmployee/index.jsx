@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 
 export default function EditEmployee({ open, close, data }) {
   if (!open) return null;
-  console.log('cekdata', data.name);
 
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [message, setMessage] = useState(null);

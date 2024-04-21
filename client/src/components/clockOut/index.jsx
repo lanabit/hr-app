@@ -1,46 +1,34 @@
 'use client';
-import { Form, Formik, Field } from 'formik';
-import { postAttendance } from '../../supports/api/attendance';
-import { useRouter } from 'next/router';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { clockOutAttendance } from '../../supports/api/attendance';
 
-export default function ClockIn() {
-  const navigate = () => {
-    route = useRouter();
-    return route;
-  };
+export default function ClockOut() {
   let userId = JSON.parse(localStorage.getItem('user'))?.id;
+  let attendanceId = JSON.parse(localStorage.getItem('user'))?.attendanceId;
+
   return (
     <>
       <Formik
         initialValues={{
           employeeId: userId,
-          date: '',
-          clockIn: '',
-          clockOut: '00:00',
+          clockOut: '',
         }}
         onSubmit={async (values) => {
-          await postAttendance(values);
+          await clockOutAttendance(attendanceId, values);
           window.location.reload();
-          navigate('/dashboard');
         }}
       >
         {({ dirty }) => {
           return (
             <Form>
               <div className="flex flex-col gap-2 text-lg">
-                <label>Date</label>
-                <Field
-                  className="border p-2"
-                  type="date"
-                  id="date"
-                  name="date"
-                />
-                <label>Clock In Time</label>
+                <label>Clock Out Time</label>
                 <Field
                   className="border p-2"
                   type="time"
-                  id="clockIn"
-                  name="clockIn"
+                  id="clockOut"
+                  name="clockOut"
                 />
                 <button type="submit" className="border bg-slate-300 p-2">
                   Submit

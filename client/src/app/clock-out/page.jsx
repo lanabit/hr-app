@@ -1,9 +1,8 @@
-import ClockIn from '../../components/clockIn';
-
+import ClockOut from '../../components/clockOut';
 export default function ClockOutPage() {
   return (
     <div>
-      <ClockIn></ClockIn>
+      <ClockOut></ClockOut>
     </div>
   );
 }

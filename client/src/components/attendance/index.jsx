@@ -14,32 +14,34 @@ export default function AttendanceComponent() {
     fetchData();
   }, []);
 
-  console.log(attendanceData);
   return (
-    <div className="rounded-lg border p-8">
-      <div className="mb-5 flex flex-col">
-        <div className="text-xl">Attendance Page</div>
-        <div className="grid grid-cols-6">
-          <div>ID</div>
-          <div>Date</div>
-          <div>Clock In</div>
-          <div>Clock Out</div>
-          <div>On Leave</div>
-          <div>Deduction</div>
-        </div>
-        {attendanceData?.map((x, i) => {
-          return (
-            <div className="grid grid-cols-6 bg-pink-200">
-              <div>{x.employeeId}</div>
-              <div>{x.date}</div>
-              <div>{x.clockIn}</div>
-              <div>{x.clockOut}</div>
-              <div>{x.isOnLeave ? 'On Leave' : 'Present'}</div>
-              <div>{x.deduction}</div>
-            </div>
-          );
-        })}
-      </div>
+    <div className="overflow-x-auto">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+            <th>On Leave</th>
+            <th>Deduction</th>
+          </tr>
+        </thead>
+        <tbody className="z-auto">
+          {attendanceData?.map((x, i) => {
+            return (
+              <tr key={i}>
+                <td>{x.employeeId}</td>
+                <td>{x.date}</td>
+                <td>{x.clockIn}</td>
+                <td>{x.clockOut}</td>
+                <td>{x.isOnLeave ? 'On Leave' : 'Present'}</td>
+                <td>{x.deduction}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

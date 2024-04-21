@@ -7,24 +7,27 @@ import Navbar from '../components/cores/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
+import { usePathname } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, pageProps }) {
   const [userData, setUserData] = useState(null);
-  console.log('userData layout:', userData);
+  const path = usePathname();
   return (
     <UserContext.Provider value={{ userData, setUserData }}>
       <html lang="en">
         <body className={inter.className}>
-          <ToastContainer />
-          <div className="flex h-[100vw]">
-            <div className="fixed left-0 top-0">
-              <Navbar />
+          <div className="flex min-h-screen w-full">
+            <ToastContainer />
+            {path === '/login' ? null : (
+              <div className="w-[5%] flex-auto">
+                <Navbar />
+              </div>
+            )}
+            <div className="bg-provincial flex w-[95%] flex-auto items-center justify-center">
+              <ProtectedRoute>{children}</ProtectedRoute>
             </div>
-            <ProtectedRoute>
-              <div className="pl-[150px]">{children}</div>
-            </ProtectedRoute>
           </div>
         </body>
       </html>

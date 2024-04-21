@@ -3,7 +3,6 @@ import {
   findAttendance,
   createAttendance,
   editAttendance,
-  deductionLogicFECall,
 } from "./AttendanceService";
 import { findEmployeesById } from "../employee/EmployeeService";
 
@@ -69,31 +68,6 @@ export const logClockOut = async (
     res.send({
       status: "success",
       data: newAttendance,
-    });
-  } catch (error: any) {
-    res.send({
-      status: "error",
-      message: error.message,
-    });
-  }
-};
-
-export const logDeduction = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const attendanceId = parseInt(req.headers.id as string);
-    const { clockIn, clockOut } = req.body;
-
-    const deduction = await deductionLogicFECall(
-      attendanceId,
-      clockIn,
-      clockOut
-    );
-
-    res.send({
-      deduction,
     });
   } catch (error: any) {
     res.send({

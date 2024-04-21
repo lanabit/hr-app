@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, pageProps }) {
   const [userData, setUserData] = useState(null);
   const path = usePathname();
   return (

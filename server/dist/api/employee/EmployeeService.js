@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEmployee = exports.updateEmployee = exports.createEmployee = exports.findEmployeesById = exports.findEmployees = void 0;
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const findEmployees = () => __awaiter(void 0, void 0, void 0, function* () {
-    const employees = yield prisma.Employee.findMany({
+    const employees = yield prisma.employee.findMany({
         include: {
             position: true,
             shift: true,

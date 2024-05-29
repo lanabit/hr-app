@@ -18,11 +18,11 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (user.password != password) {
             return res.status(404).json({ message: 'Wrong password' });
         }
-        const { id, position, name } = user;
+        const { id, isHRAdmin, name } = user;
         return res.send({
             data: {
                 id,
-                position,
+                isHRAdmin,
                 name,
                 email,
             },

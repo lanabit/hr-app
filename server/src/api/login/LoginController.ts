@@ -11,12 +11,12 @@ export const Login = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Wrong password' });
     }
 
-    const { id, position, name } = user;
+    const { id, isHRAdmin, name } = user;
 
     return res.send({
       data: {
         id,
-        position,
+        isHRAdmin,
         name,
         email,
       },
